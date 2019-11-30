@@ -23,6 +23,8 @@ class App extends React.Component {
       cardPositions: shuffledCards,
       isInitialize : true
     });
+
+    document.addEventListener("keydown", this.handleKeyDown);
   }
 
   shuffle = async (array) => {
@@ -42,6 +44,22 @@ class App extends React.Component {
     }
   
     return array;
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.handleKeyDown);
+  }
+
+  handleKeyDown = (e) => {
+    if (e.keyCode === 38) {
+      this.positionChange("up");
+    } else if (e.keyCode === 40) {
+      this.positionChange("down");
+    } else if (e.keyCode === 37) {
+      this.positionChange("left");
+    } else if (e.keyCode === 39) {
+      this.positionChange("right");
+    }
   }
 
   render() {
