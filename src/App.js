@@ -3,17 +3,52 @@ import './App.css';
 import puzzle from "./puzzle.jpg";
 
 class App extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      cardPositions: [],
+      isInitialize : false
+    };
+  }
+
+  async componentDidMount() {
+    var arr = [...Array(40)].map((data, index) => {
+      return index + 1;
+    });
+
+    this.setState({
+      cardPositions: arr,
+      isInitialize : true
+    });
+  }
+
   render() {
     let aindex = 0;
+    let cindex = 0;
     return (
       <div className="App">
         <div class="container">
           <div class="row">
             <div className="col-md-9">
               <div className="row">
-                <div className="col-md-12 d-flex  justify-content-center align-items-center">
-                  &nbsp;
-            </div>
+                <div className="col-md-12 d-flex  justify-content-center align-items-center" ref={"maincontent"} >
+                  <table className="quetable" style={{ border: "2px solid white" }} ref={"contentBox"}>
+                    <tbody>
+                      {this.state.isInitialize && [...Array(5)].map((data, index) => {
+                        return <tr>
+                          {[...Array(8)].map((sdata, sindex) => {
+                            const cNum = this.state.cardPositions[cindex];
+                            cindex = cindex + 1;
+                            return <td id={"box_" + cindex} data-block={cindex} style={{ width: "100px", height: "100px", border: "1px solid white" }}>
+                              <img ref={"drag-" + cindex} data-id={cindex} src={require("./puzzles/" + cNum + ".png")} alt={cindex} />
+                            </td>
+                          })}
+                        </tr>
+                      })}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
             <div className="col-md-3 text-center">
