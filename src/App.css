@@ -5,3 +5,160 @@ body {
 .app{
   min-height: 100vh;
 }
+
+.container{
+  padding-left: 0px;
+  padding-right: 0px;
+  max-width : 95%;
+}
+
+.row{
+  min-height: 100vh;
+}
+
+.sblock 
+{
+  height: 100vh;
+}
+
+.contentSBox {
+   border: 1px solid #FFF; 
+   margin: 5px;
+}
+
+.flipblock{
+  height: 160px;
+  min-width: 160px;
+  max-width: 160px;
+  border-color: black;
+  border: 1px solid #FFF;
+  margin: 5px;
+  margin-right: 10px;
+  margin-left: 10px;
+  border-radius: 6px;
+}
+
+.contentBox{
+  height: 100%;
+  /* background-color:#2f3360; */
+  border-radius: 5px;
+  max-width: 900px;
+  max-width: 900px;
+  min-height: 600px;
+  max-height: 600px;
+}
+
+.gamebutton{
+  background-color:rgb(180, 181, 8);
+  border-color:rgb(180, 181, 8);
+  color:black;
+    height: 40px;
+    border-radius: 10px;
+    font-size: larger;
+    font-weight: bolder;
+}
+
+.timerbutton{
+  background-color:rgb(180, 181, 8);
+  border-color:rgb(180, 181, 8);
+  color:black;
+  height: 40px;
+  border-radius: 10px;
+  font-size: larger;
+  font-weight: bolder;
+  height: 120px;
+  width: 120px;
+  border-radius: 50%;
+  font-size: 28px;  
+}
+
+
+.flip-box:hover{
+  cursor: pointer;
+}
+
+.flip-box {
+  background-color: transparent;
+  height: 130px;
+  margin: 5px;
+  margin-right: 10px;
+  margin-left: 10px;
+  border-radius: 6px;
+  min-width: 130px;
+  max-width: 130px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  perspective: 1000px; /* Remove this if you don't want the 3D effect */
+}
+
+/* This container is needed to position the front and back side */
+.flip-box-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.flip-box.flipped .flip-box-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-box-back.found {
+  background-color: lightblue;
+}
+
+/* Position the front and back side */
+.flip-box-front, .flip-box-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+/* Style the front side */
+.flip-box-front {
+  background-color:#ffffff;
+  color: black;
+  border-radius :5px;
+}
+
+/* Style the back side */
+.flip-box-back {
+  background-color: #ffffff;
+  color: black;
+  transform: rotateY(180deg);
+  border-radius :5px;
+  display: table;
+}
+
+.flip-box-back h2 {
+  vertical-align: middle;
+  display: table-cell;
+  font-size: 60px;
+}
+
+img {
+  -webkit-filter: brightness(60%);
+ }
+
+ .quetable img{
+    width : 100px;
+    height: 100px;
+    z-index: 5;
+ }
+
+ .anstable {
+  height: 200px;
+  width: 100%;
+}
+
+.quetable{
+  background-color: #FFF;
+}
+
+table.anstable {
+  border-collapse:collapse
+}
