@@ -1,49 +1,77 @@
 import React from 'react';
-import './App.css';
 import puzzle from "./puzzle.jpg";
+import './App.css';
+import * as ReactDOM from 'react-dom';
 
 class App extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
-      cardPositions: [],
-      isInitialize: false
+      cpadding : 0,
+      cardPositions : [],
+      isInitialize :  false,
+      currentWhiteBlock : 0,
+      left : 0,
+      right : 0,
+      up : 0,
+      down : 0,
+      slidePosition: [
+        { left: false, right: true, up: false, down: true }, { left: true, right: true, up: false, down: true }, { left: true, right: true, up: false, down: true }, { left: true, right: true, up: false, down: true }, { left: true, right: true, up: false, down: true }, { left: true, right: true, up: false, down: true }, { left: true, right: true, up: false, down: true }, { left: true, right: false, up: false, down: true },
+        { left: false, right: true, up: true, down: true }, { left: true, right: true, up: true, down: true }, { left: true, right: true, up: true, down: true }, { left: true, right: true, up: true, down: true }, { left: true, right: true, up: true, down: true }, { left: true, right: true, up: true, down: true }, { left: true, right: true, up: true, down: true }, { left: true, right: false, up: true, down: true },
+        { left: false, right: true, up: true, down: true }, { left: true, right: true, up: true, down: true }, { left: true, right: true, up: true, down: true }, { left: true, right: true, up: true, down: true }, { left: true, right: true, up: true, down: true }, { left: true, right: true, up: true, down: true }, { left: true, right: true, up: true, down: true }, { left: true, right: false, up: true, down: true },
+        { left: false, right: true, up: true, down: true }, { left: true, right: true, up: true, down: true }, { left: true, right: true, up: true, down: true }, { left: true, right: true, up: true, down: true }, { left: true, right: true, up: true, down: true }, { left: true, right: true, up: true, down: true }, { left: true, right: true, up: true, down: true }, { left: true, right: false, up: true, down: true },
+        { left: false, right: true, up: true, down: false }, { left: true, right: true, up: true, down: false }, { left: true, right: true, up: true, down: false }, { left: true, right: true, up: true, down: false }, { left: true, right: true, up: true, down: false }, { left: true, right: true, up: true, down: false }, { left: true, right: true, up: true, down: false }, { left: true, right: false, up: true, down: false }
+      ]
     };
   }
 
-  async componentDidMount() {
-    var arr = [...Array(40)].map((data, index) => {
-      return index + 1;
-    });
-
-    const shuffledCards = await this.shuffle(arr);
-
-    this.setState({
-      cardPositions: shuffledCards,
-      isInitialize: true
-    });
-
-    document.addEventListener("keydown", this.handleKeyDown);
-  }
-
-  shuffle = async (array) => {
+   shuffle = async (array) => {
     var currentIndex = array.length, temporaryValue, randomIndex;
-
+  
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
-
+  
       // Pick a remaining element...
       randomIndex = Math.floor(Math.random() * currentIndex);
       currentIndex -= 1;
-
+  
       // And swap it with the current element.
       temporaryValue = array[currentIndex];
       array[currentIndex] = array[randomIndex];
       array[randomIndex] = temporaryValue;
     }
-
+  
     return array;
+  }
+
+  async componentDidMount() {
+    const dynamicPadding = (ReactDOM.findDOMNode(this.refs["maincontent"]).getBoundingClientRect().height - ReactDOM.findDOMNode(this.refs["contentBox"]).getBoundingClientRect().height) / 2;
+    var arr = [...Array(40)].map((data, index) => {
+        return index + 1;
+    });
+    const shuffledCards =  await this.shuffle(arr);
+    let currentWhiteBlock = 0;
+    let updatedPositions = [];
+    shuffledCards.map((data, index) => {
+      let currentImage = data + ".png";
+      if(data === 40)
+      {
+        currentWhiteBlock = (index + 1);
+      }
+      updatedPositions.push({ image : currentImage , boxId : (index + 1)});
+    });
+
+    this.setState({
+      cpadding: dynamicPadding,
+      cardPositions : updatedPositions,
+      currentWhiteBlock : currentWhiteBlock
+    }, () => {
+      this.setState({
+        isInitialize : true
+      });
+    });
+
+    document.addEventListener("keydown", this.handleKeyDown);
   }
 
   componentWillUnmount() {
@@ -62,18 +90,18 @@ class App extends React.Component {
     }
   }
 
-  swapImages = (index) => {
-    let updatedArrayPosition = this.state.cardPositions;
-    let currentBox = updatedArrayPosition[index - 1];
-    let whiteBox = updatedArrayPosition[this.state.currentWhiteBlock - 1];
-    const tempImage = currentBox.image;
-    const tempPostion = currentBox.boxId;
-    currentBox.image = whiteBox.image;
-    whiteBox.image = tempImage;
-    this.setState({
-      cardPositions: updatedArrayPosition,
-      currentWhiteBlock: tempPostion
-    });
+  swapImages = (index) => { 
+      let updatedArrayPosition = this.state.cardPositions;
+      let currentBox = updatedArrayPosition[index - 1];
+      let whiteBox = updatedArrayPosition[this.state.currentWhiteBlock - 1];
+      const tempImage = currentBox.image;
+      const tempPostion = currentBox.boxId;
+      currentBox.image = whiteBox.image;
+      whiteBox.image = tempImage;
+      this.setState({
+        cardPositions : updatedArrayPosition,
+        currentWhiteBlock : tempPostion
+      });
   }
 
   verifySwapImages = (index) => {
@@ -123,8 +151,8 @@ class App extends React.Component {
   }
 
   render() {
-    let aindex = 0;
-    let cindex = 0;
+    let cindex = 0 ;
+    let aindex = 0 ;
     return (
       <div className="App">
         <div class="container">
@@ -132,16 +160,16 @@ class App extends React.Component {
             <div className="col-md-9">
               <div className="row">
                 <div className="col-md-12 d-flex  justify-content-center align-items-center" ref={"maincontent"} >
-                  <table className="quetable" style={{ border: "2px solid white" }} ref={"contentBox"}>
+                  <table className="quetable" style={{border: "2px solid white"}} ref={"contentBox"}>
                     <tbody>
                       {this.state.isInitialize && [...Array(5)].map((data, index) => {
                         return <tr>
                           {[...Array(8)].map((sdata, sindex) => {
-                            const cNum = this.state.cardPositions[cindex];
+                            const cNum = this.state.cardPositions[cindex].image;
                             cindex = cindex + 1;
                             const currentIndex = cindex;
-                            return <td id={"box_" + cindex} data-block={cindex} style={{ width: "100px", height: "100px", border: "1px solid white" }}>
-                              <img ref={"drag-" + cindex} onClick={() => this.verifySwapImages(currentIndex)}  data-id={cindex} src={require("./puzzles/" + cNum + ".png")} alt={cindex} />
+                            return <td id={"box_" + cindex} data-block={cindex} style={{ width: "100px", height: "100px", border: "1px solid white"}}>
+                              <img ref={"drag-" + cindex} onClick={() => this.verifySwapImages(currentIndex)} data-id={cindex} src={require("./puzzles/" + cNum)} alt={cindex} />
                             </td>
                           })}
                         </tr>
@@ -152,9 +180,9 @@ class App extends React.Component {
               </div>
             </div>
             <div className="col-md-3 text-center">
-              <div className="row d-flex justify-content-center align-items-center text-white">
-                <div className="col-md-12">
-                  <table className="anstable" style={{ width: "100%", border: "2px solid white", backgroundImage: "url(" + puzzle + ")", backgroundSize: "100% 100%", backgroundRepeat: "no-repeat" }}>
+              <div className="row d-flex justify-content-center align-items-top text-white">
+                <div className="col-md-12" style={{paddingTop : this.state.cpadding  + "px", paddingBottom : this.state.cpadding  + "px"}}>
+                  <table className="anstable"  style={{ width : "100%",border: "2px solid white" , backgroundImage : "url(" + puzzle + ")" , backgroundSize : "100% 100%" , backgroundRepeat : "no-repeat"}}>
                     <tbody>
                       {[...Array(5)].map((data, index) => {
                         return <tr>
@@ -165,7 +193,7 @@ class App extends React.Component {
                                 &nbsp;
                               </td>
                             } else {
-                              return <td id={"box_" + aindex} style={{ minWidth: "10px", minHeight: "10px" }}>
+                              return <td  id={"box_" + aindex} style={{ minWidth: "10px", minHeight: "10px"}}>
                                 &nbsp;
                               </td>
                             }
