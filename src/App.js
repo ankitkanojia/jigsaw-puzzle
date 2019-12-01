@@ -8,7 +8,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       cardPositions: [],
-      isInitialize : false
+      isInitialize: false
     };
   }
 
@@ -17,11 +17,11 @@ class App extends React.Component {
       return index + 1;
     });
 
-    const shuffledCards =  await this.shuffle(arr);
-  
+    const shuffledCards = await this.shuffle(arr);
+
     this.setState({
       cardPositions: shuffledCards,
-      isInitialize : true
+      isInitialize: true
     });
 
     document.addEventListener("keydown", this.handleKeyDown);
@@ -29,20 +29,20 @@ class App extends React.Component {
 
   shuffle = async (array) => {
     var currentIndex = array.length, temporaryValue, randomIndex;
-  
+
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
-  
+
       // Pick a remaining element...
       randomIndex = Math.floor(Math.random() * currentIndex);
       currentIndex -= 1;
-  
+
       // And swap it with the current element.
       temporaryValue = array[currentIndex];
       array[currentIndex] = array[randomIndex];
       array[randomIndex] = temporaryValue;
     }
-  
+
     return array;
   }
 
@@ -62,6 +62,20 @@ class App extends React.Component {
     }
   }
 
+  swapImages = (index) => {
+    let updatedArrayPosition = this.state.cardPositions;
+    let currentBox = updatedArrayPosition[index - 1];
+    let whiteBox = updatedArrayPosition[this.state.currentWhiteBlock - 1];
+    const tempImage = currentBox.image;
+    const tempPostion = currentBox.boxId;
+    currentBox.image = whiteBox.image;
+    whiteBox.image = tempImage;
+    this.setState({
+      cardPositions: updatedArrayPosition,
+      currentWhiteBlock: tempPostion
+    });
+  }
+
   render() {
     let aindex = 0;
     let cindex = 0;
@@ -79,8 +93,9 @@ class App extends React.Component {
                           {[...Array(8)].map((sdata, sindex) => {
                             const cNum = this.state.cardPositions[cindex];
                             cindex = cindex + 1;
+                            const currentIndex = cindex;
                             return <td id={"box_" + cindex} data-block={cindex} style={{ width: "100px", height: "100px", border: "1px solid white" }}>
-                              <img ref={"drag-" + cindex} data-id={cindex} src={require("./puzzles/" + cNum + ".png")} alt={cindex} />
+                              <img ref={"drag-" + cindex} onClick={() => this.swapImages(currentIndex)}  data-id={cindex} src={require("./puzzles/" + cNum + ".png")} alt={cindex} />
                             </td>
                           })}
                         </tr>
