@@ -89,6 +89,39 @@ class App extends React.Component {
     }
   }
 
+  positionChange = (type) => {
+    const cPo = this.state.currentWhiteBlock;
+    if(type === "up")
+    {
+      const nextPositionObject = this.state.slidePosition[cPo + 7];
+      if(nextPositionObject && nextPositionObject.up)
+      {
+        this.swapImages(cPo + 8);
+      }
+    }else if(type === "down")
+    {
+      const nextPositionObject = this.state.slidePosition[cPo - 9];
+      if(nextPositionObject && nextPositionObject.down)
+      {
+        this.swapImages(cPo - 8);
+      }
+    }else if(type === "left")
+    {
+      const nextPositionObject = this.state.slidePosition[cPo];
+      if(nextPositionObject && nextPositionObject.left)
+      {
+        this.swapImages(cPo + 1);
+      }
+    }else if(type === "right")
+    {
+      const nextPositionObject = this.state.slidePosition[cPo - 1];
+      if(nextPositionObject && nextPositionObject.left)
+      {
+        this.swapImages(cPo - 1);
+      }
+    }
+  }
+
   render() {
     let aindex = 0;
     let cindex = 0;
