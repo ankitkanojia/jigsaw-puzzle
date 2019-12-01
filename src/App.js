@@ -76,6 +76,19 @@ class App extends React.Component {
     });
   }
 
+  verifySwapImages = (index) => {
+    const cPo = this.state.currentWhiteBlock;
+    if ((cPo - 8) === index) {
+      this.swapImages(cPo - 8);
+    } else if ((cPo + 8) === index) {
+        this.swapImages(cPo + 8);
+    } else if ((cPo - 1) === index) {
+        this.swapImages(cPo - 1);
+    } else if ((cPo + 1) === index) {
+        this.swapImages(cPo + 1);
+    }
+  }
+
   render() {
     let aindex = 0;
     let cindex = 0;
@@ -95,7 +108,7 @@ class App extends React.Component {
                             cindex = cindex + 1;
                             const currentIndex = cindex;
                             return <td id={"box_" + cindex} data-block={cindex} style={{ width: "100px", height: "100px", border: "1px solid white" }}>
-                              <img ref={"drag-" + cindex} onClick={() => this.swapImages(currentIndex)}  data-id={cindex} src={require("./puzzles/" + cNum + ".png")} alt={cindex} />
+                              <img ref={"drag-" + cindex} onClick={() => this.verifySwapImages(currentIndex)}  data-id={cindex} src={require("./puzzles/" + cNum + ".png")} alt={cindex} />
                             </td>
                           })}
                         </tr>
