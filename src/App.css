@@ -2,23 +2,15 @@ body {
   background: url("bgimage.png");
 }
 
-.app{
-  min-height: 100vh;
+
+html,body, #root ,.App, .container , .container> .row{
+  height: 100%;
 }
 
 .container{
   padding-left: 0px;
   padding-right: 0px;
   max-width : 95%;
-}
-
-.row{
-  min-height: 100vh;
-}
-
-.sblock 
-{
-  height: 100vh;
 }
 
 .contentSBox {

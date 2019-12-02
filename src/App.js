@@ -157,9 +157,9 @@ class App extends React.Component {
       <div className="App">
         <div class="container">
           <div class="row">
-            <div className="col-md-9">
+            <div className="col-md-9 d-flex justify-content-center align-items-center">
               <div className="row">
-                <div className="col-md-12 d-flex  justify-content-center align-items-center" ref={"maincontent"} >
+                <div className="col-md-12" ref={"maincontent"} >
                   <table className="quetable" style={{border: "2px solid white"}} ref={"contentBox"}>
                     <tbody>
                       {this.state.isInitialize && [...Array(5)].map((data, index) => {
@@ -179,8 +179,8 @@ class App extends React.Component {
                 </div>
               </div>
             </div>
-            <div className="col-md-3 text-center">
-              <div className="row d-flex justify-content-center align-items-top text-white">
+            <div className="col-md-3 d-flex align-items-center text-center">
+              <div className="row w-100">
                 <div className="col-md-12" style={{paddingTop : this.state.cpadding  + "px", paddingBottom : this.state.cpadding  + "px"}}>
                   <table className="anstable"  style={{ width : "100%",border: "2px solid white" , backgroundImage : "url(" + puzzle + ")" , backgroundSize : "100% 100%" , backgroundRepeat : "no-repeat"}}>
                     <tbody>
